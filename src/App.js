@@ -1,25 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import * as React from 'react';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import "./App.css";
+
+//import your icons
+import { fas } from "@fortawesome/free-solid-svg-icons";
+import { far } from "@fortawesome/free-regular-svg-icons";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import NoMatch from './components/NoMatch';
+import LoginPage from './components/LoginPage';
+import FlightDataPage from './components/FlightDataPage';
+import UserPage from './components/UserPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    {/* <React.Suspense fallback={<div style={{display:'flex', minHeight:'100vh', justifyContent:'center', alignItems: 'center'}}><Spinner animation="border" /></div>}> */}
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/flightlog" element={<FlightDataPage />} />
+        <Route path="/users" element={<UserPage />} />
+        <Route path="*" element={<NoMatch />} />
+      </Routes>
+      {/* </React.Suspense> */}
+    </BrowserRouter>
   );
 }
 
 export default App;
+
+library.add(fas, far);
