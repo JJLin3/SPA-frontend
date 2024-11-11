@@ -1,4 +1,4 @@
-export const API = "http://localhost:8080";
+export const API = "https://spa-backend-two.vercel.app";
 export const FLIGHTLOGS = "/flightLogs";
 export const USERS = "/users";
 export const SIGNIN = '/signin';
