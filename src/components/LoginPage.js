@@ -14,18 +14,24 @@ export default function LoginPage() {
 
   const signin = async () => {
     const url = API + SIGNIN;
-    try{
-      const response = await axios.post(url, {username, password});
-    const data = response.data;
-    if (response.status === 200) {
-      sessionStorage.setItem('token', data.token.access_token)
-      sessionStorage.setItem('userId', data.token.user.id)
-      navigate('/flightlog')
-    } else {
-      setError(response.message)
-    }
-    }catch(error){
-      setError(error.message)
+    try {
+      const response = await axios.post(url, { username, password });
+      const data = response.data;
+      console.log(JSON.stringify(response.data))
+      if(response.status === 200){
+        if (!data.token.status) {
+          console.log("error: " + data.token.code)
+  
+          sessionStorage.setItem('token', data.token.access_token)
+          sessionStorage.setItem('userId', data.token.user.id)
+          navigate('/flightlog')
+        } else {
+          setError(data.token.code)
+        }
+      }
+    } catch (error) {
+      console.log("error: " + error.message)
+      setError('An error occurred: ' + error.message)
     }
   }
 
@@ -60,10 +66,11 @@ export default function LoginPage() {
             variant="primary"
             onClick={async (e) => {
               setError("");
-              signin()
+
               const canLogin = username && password;
               if (canLogin) {
                 try {
+                  signin()
                   navigate("/");
                 } catch (error) {
                   setError(error.message);
